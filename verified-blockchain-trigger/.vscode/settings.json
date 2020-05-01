@@ -1,7 +1,0 @@
-{
-  "azureFunctions.deploySubpath": "target/azure-functions/verified-blockchain-trigger-20200424124848786",
-  "azureFunctions.projectLanguage": "Java",
-  "azureFunctions.projectRuntime": "~3",
-  "debug.internalConsoleOptions": "neverOpen",
-  "azureFunctions.preDeployTask": "package"
-}
