@@ -1,3 +1,5 @@
+//(c) Kallol Borah, 2020
+
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -66,7 +68,7 @@ namespace verified_blockchain_api
                 }
                 catch (Exception e)
                 {
-                    
+                    log.LogInformation("Exception loading DLL: " + e.ToString());
                 }
             }
 

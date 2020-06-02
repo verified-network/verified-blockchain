@@ -1,7 +1,8 @@
 {
-    "azureFunctions.deploySubpath": "verified-blockchain-trigger/target/azure-functions/verified-blockchain-trigger-20200424124848786",
-    "azureFunctions.projectLanguage": "Java",
+    "azureFunctions.deploySubpath": "verified-blockchain-trigger/bin/Release/netcoreapp3.1/publish",
+    "azureFunctions.projectLanguage": "C#",
     "azureFunctions.projectRuntime": "~3",
     "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.preDeployTask": "package"
+    "azureFunctions.preDeployTask": "publish",
+    "azureFunctions.projectSubpath": "verified-blockchain-trigger"
 }

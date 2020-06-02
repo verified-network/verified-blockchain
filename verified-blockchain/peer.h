@@ -4,11 +4,11 @@
 */
 #pragma once
 
-#ifdef VERIFIEDBLOCKCHAIN_EXPORTS
+//#ifdef VERIFIEDBLOCKCHAIN_EXPORTS
 #define VERIFIEDBLOCKCHAIN_API __declspec(dllexport)
-#else
-#define VERIFIEDBLOCKCHAIN_API __declspec(dllimport)
-#endif
+//#else
+//#define VERIFIEDBLOCKCHAIN_API __declspec(dllimport)
+//#endif
 
 #include "opendht.h"
 #include <string>

@@ -1,0 +1,3 @@
+[submodule "verified-blockchain/verified-storage"]
+	path = verified-blockchain/verified-storage
+	url = https://github.com/verified-network/verified-storage
