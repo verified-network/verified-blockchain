@@ -180,7 +180,8 @@ private:
             const InfoHash&,
             const Blob&,
             Tid,
-            const Query&)> onListen {};
+            const Query&,
+            int)> onListen {};
     /**
      * Called on announce request.
      *
@@ -237,9 +238,10 @@ public:
     void clear();
 
     /**
-     * Sends values (with closest nodes) to a listenner.
+     * Sends values (with closest nodes) to a listener.
      *
-     * @param sa          The address of the listenner.
+     * @deprecated
+     * @param sa          The address of the listener.
      * @param sslen       The length of the sockaddr structure.
      * @param socket_id  The tid to use to write to the request socket.
      * @param hash        The hash key of the value.
@@ -248,13 +250,14 @@ public:
      * @param nodes       The ipv4 closest nodes.
      * @param nodes6      The ipv6 closest nodes.
      * @param values      The values to send.
+     * @param version     If version = 1, a request will be used to answer to the listener
      */
     void tellListener(Sp<Node> n, Tid socket_id, const InfoHash& hash, want_t want, const Blob& ntoken,
             std::vector<Sp<Node>>&& nodes, std::vector<Sp<Node>>&& nodes6,
-            std::vector<Sp<Value>>&& values, const Query& q);
+            std::vector<Sp<Value>>&& values, const Query& q, int version);
 
-    void tellListenerRefreshed(Sp<Node> n, Tid socket_id, const InfoHash& hash, const Blob& ntoken, const std::vector<Value::Id>& values);
-    void tellListenerExpired(Sp<Node> n, Tid socket_id, const InfoHash& hash, const Blob& ntoken, const std::vector<Value::Id>& values);
+    void tellListenerRefreshed(Sp<Node> n, Tid socket_id, const InfoHash& hash, const Blob& ntoken, const std::vector<Value::Id>& values, int version);
+    void tellListenerExpired(Sp<Node> n, Tid socket_id, const InfoHash& hash, const Blob& ntoken, const std::vector<Value::Id>& values, int version);
 
     bool isRunning(sa_family_t af) const;
     inline want_t want () const { return dht_socket->hasIPv4() and dht_socket->hasIPv6() ? (WANT4 | WANT6) : -1; }
@@ -276,7 +279,7 @@ public:
      */
     Sp<Request>
     sendPing(Sp<Node> n, RequestCb&& on_done, RequestExpiredCb&& on_expired);
-    
+
     /**
      * Send a "ping" request to a given node.
      *
@@ -293,7 +296,7 @@ public:
                 std::forward<RequestCb>(on_done),
                 std::forward<RequestExpiredCb>(on_expired));
     }
-    
+
     /**
      * Send a "find node" request to a given node.
      *
@@ -401,6 +404,24 @@ public:
                                  const Blob& token,
                                  RequestCb&& on_done,
                                  RequestExpiredCb&& on_expired);
+    /**
+     * Send a "update" request to a given node. Used for Listen operations
+     *
+     * @param n           The node.
+     * @param hash        The target hash.
+     * @param values      The values.
+     * @param created     Time id.
+     * @param token       A security token.
+     * @param sid         The socket id.
+     *
+     * @return the request with information concerning its success.
+     */
+    Sp<Request> sendUpdateValues(Sp<Node> n,
+                                 const InfoHash& infohash,
+                                 const std::vector<Sp<Value>>& values,
+                                 time_point created,
+                                 const Blob& token,
+                                 const size_t& sid);
 
     /**
      * Parses a message and calls appropriate callbacks.
@@ -413,8 +434,8 @@ public:
      */
     void processMessage(const uint8_t *buf, size_t buflen, SockAddr addr);
 
-    Sp<Node> insertNode(const InfoHash& myid, const SockAddr& addr) {
-        auto n = cache.getNode(myid, addr, scheduler.time(), 0);
+    Sp<Node> insertNode(const InfoHash& id, const SockAddr& addr) {
+        auto n = cache.getNode(id, addr, scheduler.time(), 0);
         onNewNode(n, 0);
         return n;
     }
@@ -430,6 +451,21 @@ public:
 
     std::vector<Sp<Node>> getCachedNodes(const InfoHash& id, sa_family_t sa_f, size_t count) {
         return cache.getCachedNodes(id, sa_f, count);
+    }
+
+    size_t getNodeCacheSize() const {
+        return cache.size();
+    }
+    size_t getNodeCacheSize(sa_family_t af) const {
+        return cache.size(af);
+    }
+
+    size_t getRateLimiterSize() const {
+        return address_rate_limiter.size();
+    }
+
+    size_t getPartialCount() const {
+        return partial_messages.size();
     }
 
 private:
@@ -475,19 +511,20 @@ private:
     void sendRequest(const Sp<Request>& request);
 
     struct MessageStats {
-        unsigned ping    {0};
-        unsigned find    {0};
-        unsigned get     {0};
-        unsigned put     {0};
-        unsigned listen  {0};
-        unsigned refresh {0};
+        unsigned ping         {0};
+        unsigned find         {0};
+        unsigned get          {0};
+        unsigned put          {0};
+        unsigned listen       {0};
+        unsigned refresh      {0};
+        unsigned updateValue  {0};
     };
 
 
     // basic wrapper for socket sendto function
     int send(const SockAddr& addr, const char *buf, size_t len, bool confirmed = false);
 
-    void sendValueParts(const TransId& tid, const std::vector<Blob>& svals, const SockAddr& addr);
+    void sendValueParts(Tid tid, const std::vector<Blob>& svals, const SockAddr& addr);
     std::vector<Blob> packValueHeader(msgpack::sbuffer&, const std::vector<Sp<Value>>&);
     void maintainRxBuffer(Tid tid);
 

@@ -105,13 +105,16 @@ static std::string
 print_duration(DT d) {
     if (d < std::chrono::seconds(0)) {
         return "-" + print_duration(-d);
-    }
-    if (d < std::chrono::milliseconds(1)) {
+    } else if (d < std::chrono::milliseconds(1)) {
         return to_str(std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(d).count()) +  " us";
     } else if (d < std::chrono::seconds(1)) {
         return to_str(std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(d).count()) +  " ms";
+    } else if (d < std::chrono::minutes(1)) {
+        return to_str(std::chrono::duration_cast<std::chrono::duration<double>>(d).count()) +  " s";
+    } else if (d < std::chrono::hours(1)) {
+        return to_str(std::chrono::duration_cast<std::chrono::duration<double, std::ratio<60>>>(d).count()) +  " min";
     } else {
-        return to_str(print_dt(d)) + " s";
+        return to_str(std::chrono::duration_cast<std::chrono::duration<double, std::ratio<3600>>>(d).count()) +  " h";
     }
 }
 
@@ -170,7 +173,13 @@ unpackMsg(Blob b) {
 
 msgpack::unpacked unpackMsg(Blob b);
 
-msgpack::object* findMapValue(const msgpack::object& map, const char* key);
-msgpack::object* findMapValue(const msgpack::object& map, const std::string& key);
+msgpack::object* findMapValue(const msgpack::object& map, const char* key, size_t length);
+
+inline msgpack::object* findMapValue(const msgpack::object& map, const char* key) {
+    return findMapValue(map, key, strlen(key));
+}
+inline msgpack::object* findMapValue(const msgpack::object& map, const std::string& key) {
+    return findMapValue(map, key.c_str(), key.size());
+}
 
 } // namespace dht
