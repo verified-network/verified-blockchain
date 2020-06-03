@@ -1,3 +1,6 @@
 [submodule "verified-blockchain/verified-storage"]
 	path = verified-blockchain/verified-storage
 	url = https://github.com/verified-network/verified-storage
+[submodule "verified-blockchain/opendht"]
+	path = verified-blockchain/opendht
+	url = https://github.com/savoirfairelinux/opendht
