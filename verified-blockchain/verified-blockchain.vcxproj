@@ -186,12 +186,16 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="block.h" />
+    <ClInclude Include="chain.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="peer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="block.cpp" />
+    <ClCompile Include="chain.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="node.cpp" />
     <ClCompile Include="pch.cpp">
