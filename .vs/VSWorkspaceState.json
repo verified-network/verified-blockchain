@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
-    "\\verified-blockchain-api",
-    "\\verified-blockchain\\opendht",
-    "\\verified-blockchain\\Win32"
+    "",
+    "\\verified-blockchain",
+    "\\verified-blockchain\\dependencies",
+    "\\verified-blockchain\\dependencies\\gnutls\\lib"
   ],
+  "SelectedNode": "\\verified-blockchain\\verified-blockchain.sln",
   "PreviewInSolutionExplorer": false
 }
