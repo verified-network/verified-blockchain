@@ -1,0 +1,2 @@
+D:\verified\verified-blockchain\verified-blockchain\Win32\Debug\VERIFIEDBLOCKCHAIN.dll
+D:\verified\verified-blockchain\verified-blockchain\Win32\Debug\VERIFIEDBLOCKCHAIN.pdb

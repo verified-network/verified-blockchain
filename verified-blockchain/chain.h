@@ -2,7 +2,7 @@
  * Copyright Kallol Borah 2019
  */
 
-
+#pragma once
 #include <cstdint>
 #include <vector>
 #include "block.h"
