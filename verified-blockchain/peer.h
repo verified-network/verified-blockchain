@@ -2,18 +2,11 @@
  * Author Kallol Borah
  * Copyright 2019
 */
-#pragma once
 
-//#ifdef VERIFIEDBLOCKCHAIN_EXPORTS
 #define VERIFIEDBLOCKCHAIN_API __declspec(dllexport)
-//#else
-//#define VERIFIEDBLOCKCHAIN_API __declspec(dllimport)
-//#endif
+#include "pch.h"
 
-#include "opendht.h"
-#include <string>
-
-class VERIFIEDBLOCKCHAIN_API peer {
+class peer {
 
 	public:
 
@@ -21,10 +14,10 @@ class VERIFIEDBLOCKCHAIN_API peer {
 
 		static dht::crypto::PublicKey public_key;
 
-		int signup(std::string&, std::string&);
+		VERIFIEDBLOCKCHAIN_API int signup(std::string&, std::string&);
 
-		int signin(std::string&, std::string&);
+		VERIFIEDBLOCKCHAIN_API int signin(std::string&, std::string&);
 
-		int signout(void);
+		VERIFIEDBLOCKCHAIN_API int signout(void);
 
 };

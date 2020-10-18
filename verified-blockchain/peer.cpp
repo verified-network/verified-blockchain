@@ -2,12 +2,9 @@
  * Copyright Kallol Borah 2019
  * */
 
-# include "pch.h"
-# include <stdio.h>
-# include <fstream>
-# include <opendht.h>
-# include "node.h"
-# include "peer.h"
+#include "pch.h"
+#include "node.h"
+#include "peer.h"
 
 extern "C" {
 

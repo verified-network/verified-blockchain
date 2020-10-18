@@ -4,7 +4,6 @@
 
 #include "pch.h"
 #include "node.h"
-#include <opendht.h>
 
 dht::DhtRunner node::_n;
 

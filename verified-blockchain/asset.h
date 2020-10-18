@@ -2,9 +2,7 @@
  * Copyright Kallol Borah 2019
  */
 
-#pragma once
-#include<string>
-#include<opendht.h>
+#include "pch.h"
 
 using namespace std;
 

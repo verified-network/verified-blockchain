@@ -1,9 +1,8 @@
 /* Definition of Node
  * Copyright Kallol Borah 2019
  */
-#pragma once
-#include "opendht.h"
-#include <vector>
+
+#include "pch.h"
 
 class node {
 

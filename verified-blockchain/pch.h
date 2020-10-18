@@ -7,7 +7,17 @@
 #ifndef PCH_H
 #define PCH_H
 
+#pragma once
 // add headers that you want to pre-compile here
-#include "framework.h"
+#include <opendht.h>
+
+#include <cstdint>
+#include <vector>
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <sstream>
+#include <fstream>
+#include <stdio.h>
 
 #endif //PCH_H

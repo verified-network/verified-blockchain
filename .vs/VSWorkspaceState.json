@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\verified-blockchain",
+    "\\verified-blockchain\\Win32",
     "\\verified-blockchain\\Win32\\Debug"
   ],
-  "SelectedNode": "\\verified-blockchain\\framework.h",
+  "SelectedNode": "\\verified-blockchain\\.gitignore",
   "PreviewInSolutionExplorer": false
 }

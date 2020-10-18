@@ -1,9 +1,8 @@
 /* Definition of a block on the Verified network
  * Copyright Kallol Borah 2019
  */
-#pragma once
-#include <cstdint>
-#include <iostream>
+
+#include "pch.h"
 
 using namespace std;
 

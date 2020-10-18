@@ -2,9 +2,7 @@
  * Copyright Kallol Borah 2019
  */
 
-#pragma once
-#include <cstdint>
-#include <vector>
+#include "pch.h"
 #include "block.h"
 
 using namespace std;
