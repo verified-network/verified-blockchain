@@ -19,5 +19,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdio.h>
+#include <thread>
+#include <memory>
 
 #endif //PCH_H
