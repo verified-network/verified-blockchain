@@ -5,6 +5,7 @@
 #include "pch.h"
 #include "node.h"
 #include "peer.h"
+#include "client.h"
 
 extern "C" {
 
@@ -18,7 +19,7 @@ extern "C" {
 			n.start();
 		}
 
-		dht::InfoHash userid = dht::InfoHash::get(username + pwd);
+		userid = dht::InfoHash::get(username + pwd);
 
 		std::vector<uint8_t> user{ userid.begin(), userid.end() };
 
@@ -33,14 +34,14 @@ extern "C" {
 	}
 
 
-	VERIFIEDBLOCKCHAIN_API int peer::signin(std::string& username, std::string& pwd) {
+	VERIFIEDBLOCKCHAIN_API dht::InfoHash peer::signin(std::string& username, std::string& pwd) {
 
 		if (!node::get_node().isRunning()) {
 			node n;
 			n.start();
 		}
 
-		dht::InfoHash userid = dht::InfoHash::get(username + pwd);
+		userid = dht::InfoHash::get(username + pwd);
 
 		std::vector<uint8_t> user{ userid.begin(), userid.end() };
 
@@ -58,6 +59,7 @@ extern "C" {
 				decrypted = private_key.decrypt(val);
 				if (user == decrypted) {
 					peer::logged = true;
+					client().startListening(userid);
 					return 1;
 				}
 				else
@@ -66,7 +68,7 @@ extern "C" {
 
 			});
 
-		return 0;
+		return userid;
 
 	}
 
@@ -78,6 +80,8 @@ extern "C" {
 		node::get_node().shutdown();
 
 		peer::logged = false;
+
+		client().stopListening(userid);
 
 		return 1;
 

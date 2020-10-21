@@ -8,6 +8,10 @@
 
 class peer {
 
+	private:
+
+		dht::InfoHash userid;
+
 	public:
 
 		bool static logged;
@@ -16,7 +20,7 @@ class peer {
 
 		VERIFIEDBLOCKCHAIN_API int signup(std::string&, std::string&);
 
-		VERIFIEDBLOCKCHAIN_API int signin(std::string&, std::string&);
+		VERIFIEDBLOCKCHAIN_API dht::InfoHash signin(std::string&, std::string&);
 
 		VERIFIEDBLOCKCHAIN_API int signout(void);
 

@@ -40,6 +40,8 @@ void node::stop() {
 
 void node::export_nodes() {
 
+	using namespace std::literals::chrono_literals;
+
 	msgpack::unpacker up;
 	msgpack::object_handle oh;
 	
@@ -49,7 +51,7 @@ void node::export_nodes() {
 			node::nodes = oh.get().as<std::vector<dht::NodeExport>>();
 		}
 
-		std::thread sleep(300s);
+		std::this_thread::sleep_for(300s);
 	}
 
 }

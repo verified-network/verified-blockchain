@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\verified-blockchain",
-    "\\verified-blockchain\\Win32",
-    "\\verified-blockchain\\Win32\\Debug\\verified.4A8661BE.tlog"
+    "\\verified-blockchain\\Win32"
   ],
-  "SelectedNode": "\\verified-blockchain\\pch.h",
+  "SelectedNode": "\\verified-blockchain\\chain.cpp",
   "PreviewInSolutionExplorer": false
 }
