@@ -32,7 +32,7 @@ class node {
 
 		}
 
-		static std::vector<dht::NodeExport> get_nodes() {
+		static std::vector<dht::NodeExport>& get_nodes() {
 
 			return nodes;
 

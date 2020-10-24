@@ -3,6 +3,8 @@
  */
 
 #include "pch.h"
+#include "client.h"
+#include <vtrie.hpp>
 
 using namespace std;
 
@@ -10,9 +12,8 @@ class asset {
 
 private :
 		struct assets {
-			dht::InfoHash peer;
-			int value;
-			int balance;
+			const char* peer;
+			double value;
 			const char* currency;
 			enum transaction_type { debit, credit, block };
 			const char* contract_id;
@@ -21,9 +22,18 @@ private :
 			char* transaction_status;
 		};
 
+		static VTrie astore;
+
+		struct balances {
+			double balance;
+			const char* currency;
+		};
+
+		static VTrie cstore;
+
 public :
-		bool canDebit(dht::InfoHash peer);
-		int checkBalance(dht::InfoHash peer);
+		balances canDebit(std::string&);
+		bool recordRequest(std::string&, client::request&);
 };
 
 

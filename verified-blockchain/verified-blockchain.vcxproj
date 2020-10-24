@@ -98,7 +98,7 @@
       <PreprocessorDefinitions>WIN32;OPENDHT_JSONCPP;OPENDHT_PROXY_CLIENT;OPENDHT_PROXY_SERVER;OPENDHT_PUSH_NOTIFICATIONS;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_NATIVE;WIN32_LEAN_AND_MEAN;ASIO_STANDALONE;_DEBUG;VERIFIEDBLOCKCHAIN_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\opendht\include;$(ProjectDir)dependencies\opendht\include\opendht;$(ProjectDir)dependencies\sha;$(ProjectDir)dependencies\msgpack-c\include;$(ProjectDir)dependencies\gnutls\include;$(ProjectDir)dependencies\jsoncpp\include;$(ProjectDir)dependencies\argon2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\opendht\include;$(ProjectDir)dependencies\opendht\include\opendht;$(ProjectDir)dependencies\sha;$(ProjectDir)dependencies\msgpack-c\include;$(ProjectDir)dependencies\gnutls\include;$(ProjectDir)dependencies\jsoncpp\include;$(ProjectDir)dependencies\argon2\include;$(ProjectDir)\dependencies\storage\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
     </ClCompile>
@@ -106,8 +106,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\opendht\lib\x86;$(SolutionDir)dependencies\nettle</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libopendht.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\opendht\lib\x86;$(SolutionDir)dependencies\nettle;$(SolutionDir)dependencies\storage\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libopendht.lib;keccakd.lib;rlpd.lib;storaged.lib;utilsd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -122,14 +122,14 @@
       <PreprocessorDefinitions>WIN32;OPENDHT_JSONCPP;OPENDHT_PROXY_CLIENT;OPENDHT_PROXY_SERVER;OPENDHT_PUSH_NOTIFICATIONS;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_NATIVE;WIN32_LEAN_AND_MEAN;ASIO_STANDALONE;_DEBUG;VERIFIEDBLOCKCHAIN_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\opendht-x64\include;$(ProjectDir)dependencies\opendht-x64\include\opendht;$(ProjectDir)dependencies\sha;$(ProjectDir)dependencies\msgpack-c\include;$(ProjectDir)dependencies\gnutls\include;$(ProjectDir)dependencies\jsoncpp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\opendht-x64\include;$(ProjectDir)dependencies\opendht-x64\include\opendht;$(ProjectDir)dependencies\sha;$(ProjectDir)dependencies\msgpack-c\include;$(ProjectDir)dependencies\gnutls\include;$(ProjectDir)dependencies\jsoncpp\include;$(ProjectDir)\dependencies\storage\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\opendht-x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libopendht.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\opendht\x64;$(SolutionDir)\dependencies\storage\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libopendht.lib;keccakd.lib;rlpd.lib;storaged.lib;utilsd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

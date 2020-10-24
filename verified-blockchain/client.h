@@ -15,16 +15,16 @@ private :
 
 	std::thread listener;
 
-	std::vector<dht::InfoHash> sessions;
+	static std::vector<std::string> sessions;
 
 public :
 
-	void startListening(dht::InfoHash key);
+	static void startListening(std::string&);
 
-	void stopListening(dht::InfoHash key);
+	static void stopListening(std::string&);
 
-	void handleInboundRequest(std::vector<request> request);
+	void inboundRequestCallback(std::vector<request>);
 
-	void handleOutboundRequest(std::vector<request> request);
+	void handleOutboundRequest(std::vector<request>);
 
 };

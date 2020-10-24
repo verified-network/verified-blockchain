@@ -6,10 +6,10 @@
 #include "node.h"
 #include "client.h"
 
-dht::InfoHash user;
+std::string user;
 
 
-void client::startListening(dht::InfoHash userid) {
+void client::startListening(std::string& userid) {
 
 	user = userid;
 	sessions.push_back(userid);
@@ -18,7 +18,7 @@ void client::startListening(dht::InfoHash userid) {
 	listener = std::move(l);
 }
 
-void client::stopListening(dht::InfoHash userid) {
+void client::stopListening(std::string& userid) {
 
 	node::get_node().cancelListen(user, token);
 }
@@ -27,10 +27,17 @@ void listen() {
 
 	auto token = node::get_node().listen<request>(user, [](request&& values, bool expired) {
 		for (const auto& v : values) {
-			//v is the incoming request, call the container 
+			//v is the incoming request, call the verified run time
 
 		}
 	}
+
+}
+
+void handleOutboundRequest(std::vector<request>& request) {
+
+	asset a;
+	a.recordRequest(user, request);
 
 }
 

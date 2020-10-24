@@ -2,8 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\verified-blockchain",
+    "\\verified-blockchain\\dependencies",
+    "\\verified-blockchain\\dependencies\\storage",
+    "\\verified-blockchain\\dependencies\\storage\\include",
     "\\verified-blockchain\\Win32"
   ],
-  "SelectedNode": "\\verified-blockchain\\chain.cpp",
+  "SelectedNode": "\\verified-blockchain\\dependencies\\storage\\include\\vtrie.hpp",
   "PreviewInSolutionExplorer": false
 }

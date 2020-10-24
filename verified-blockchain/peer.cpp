@@ -8,7 +8,7 @@
 #include "client.h"
 
 extern "C" {
-
+	
 	bool peer::logged = false;
 	dht::crypto::PublicKey peer::public_key;
 
@@ -59,7 +59,8 @@ extern "C" {
 				decrypted = private_key.decrypt(val);
 				if (user == decrypted) {
 					peer::logged = true;
-					client().startListening(userid);
+					client c;
+					//c.startListening(userid.to_c_str());
 					return 1;
 				}
 				else
@@ -81,7 +82,8 @@ extern "C" {
 
 		peer::logged = false;
 
-		client().stopListening(userid);
+		client c;
+		//c.stopListening(userid.to_c_str());
 
 		return 1;
 
