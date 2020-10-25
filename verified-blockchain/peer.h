@@ -14,7 +14,7 @@ class peer {
 
 	public:
 
-		bool static logged;
+		static bool logged;
 
 		static dht::crypto::PublicKey public_key;
 
