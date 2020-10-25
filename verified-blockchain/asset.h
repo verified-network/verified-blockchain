@@ -12,20 +12,21 @@ class asset {
 
 private :
 		struct assets {
-			const char* peer;
+			std::string requestor;
+			std::string responder;
 			double value;
 			const char* currency;
 			enum transaction_type { debit, credit, block };
-			const char* contract_id;
-			const char* request;
-			const char* response;
-			char* transaction_status;
+			const std::string contract_id;
+			std::string request;
+			std::string response;
+			std::string transaction_status;
 		};
 
 		static VTrie astore;
 
 		struct balances {
-			double balance;
+			float balance;
 			const char* currency;
 		};
 
@@ -33,7 +34,8 @@ private :
 
 public :
 		balances canDebit(std::string&);
-		bool recordRequest(std::string&, client::request&);
+		bool recordRequest(std::string&&, client::request&);
+		bool recordResponse(std::string&, client::request&, client::request&);
 };
 
 

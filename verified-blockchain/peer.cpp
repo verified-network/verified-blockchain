@@ -59,8 +59,8 @@ extern "C" {
 				decrypted = private_key.decrypt(val);
 				if (user == decrypted) {
 					peer::logged = true;
-					client c;
-					//c.startListening(userid.to_c_str());
+					client c; 
+					c.startListening(userid);
 					return 1;
 				}
 				else
@@ -83,7 +83,7 @@ extern "C" {
 		peer::logged = false;
 
 		client c;
-		//c.stopListening(userid.to_c_str());
+		c.stopListening(userid);
 
 		return 1;
 

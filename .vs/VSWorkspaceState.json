@@ -7,6 +7,6 @@
     "\\verified-blockchain\\dependencies\\storage\\include",
     "\\verified-blockchain\\Win32"
   ],
-  "SelectedNode": "\\verified-blockchain\\dependencies\\storage\\include\\vtrie.hpp",
+  "SelectedNode": "\\verified-blockchain\\transaction.cpp",
   "PreviewInSolutionExplorer": false
 }

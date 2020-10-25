@@ -5,11 +5,13 @@
 #include "pch.h"
 #include "node.h"
 #include "client.h"
+#include "asset.h"
 
-std::string user;
 
+dht::InfoHash user;
+std::future<size_t> token;
 
-void client::startListening(std::string& userid) {
+void client::startListening(dht::InfoHash& userid) {
 
 	user = userid;
 	sessions.push_back(userid);
@@ -18,28 +20,34 @@ void client::startListening(std::string& userid) {
 	listener = std::move(l);
 }
 
-void client::stopListening(std::string& userid) {
+void client::stopListening(dht::InfoHash& userid) {
 
-	node::get_node().cancelListen(user, token);
+	node::get_node().cancelListen(user, std::move(token));
 }
 
-void listen() {
+void client::listen() {
 
-	auto token = node::get_node().listen<request>(user, [](request&& values, bool expired) {
-		for (const auto& v : values) {
-			//v is the incoming request, call the verified run time
+	token = node::get_node().listen<request>(user, [](request&& req, bool expired) {
+		//req is the incoming request, call the verified run time here
+		return true; // keep listening
+	});
 
-		}
+}
+
+extern "C" {
+	
+	VERIFIEDBLOCKCHAIN_API bool handleOutboundRequest(client::request& req) {
+
+		asset a;
+		a.recordRequest(user.to_c_str(), req);
+		return true;
+	}
+
+	VERIFIEDBLOCKCHAIN_API bool registerContract(std::string& contractId) {
+
+		return true;
 	}
 
 }
-
-void handleOutboundRequest(std::vector<request>& request) {
-
-	asset a;
-	a.recordRequest(user, request);
-
-}
-
 
 

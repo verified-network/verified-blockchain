@@ -48,7 +48,7 @@ void node::export_nodes() {
 	while (true) {
 
 		while (up.next(oh)) {
-			//node::nodes = oh.get().as<std::vector<dht::NodeExport>>();
+			node::nodes = oh.get().as<std::vector<dht::NodeExport>>();
 		}
 
 		std::this_thread::sleep_for(300s);

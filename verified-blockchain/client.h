@@ -2,29 +2,34 @@
  * Copyright Kallol Borah 2019
  * */
 
+#define VERIFIEDBLOCKCHAIN_API __declspec(dllexport)
 #include "pch.h"
 
 class client {
 
 private :
 
+	std::thread listener;
+
+	static std::vector<dht::InfoHash> sessions;
+
+public :
+
 	struct request {
 
 
 	};
 
-	std::thread listener;
+	void startListening(dht::InfoHash&);
 
-	static std::vector<std::string> sessions;
+	void stopListening(dht::InfoHash&);
 
-public :
-
-	static void startListening(std::string&);
-
-	static void stopListening(std::string&);
+	static void listen();
 
 	void inboundRequestCallback(std::vector<request>);
 
-	void handleOutboundRequest(std::vector<request>);
+	VERIFIEDBLOCKCHAIN_API bool handleOutboundRequest(std::vector<request>);
+
+	VERIFIEDBLOCKCHAIN_API bool registerContract(std::string&);
 
 };
