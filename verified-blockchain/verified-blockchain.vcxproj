@@ -193,6 +193,7 @@
     <ClInclude Include="node.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="peer.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="transaction.h" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +209,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="peer.cpp" />
+    <ClCompile Include="resource.cpp" />
     <ClCompile Include="transaction.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

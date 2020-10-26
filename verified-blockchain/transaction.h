@@ -3,6 +3,7 @@
  */
 
 #include "pch.h"
+#include "client.h"
 
 using namespace std;
 
@@ -34,5 +35,9 @@ private :
 
 public :
 
+	void out(client::request&);
+	void in(client::request&);
+	void certify(client::request&);
+	void verify(client::request&);
 
 };

@@ -5,6 +5,8 @@
 #define VERIFIEDBLOCKCHAIN_API __declspec(dllexport)
 #include "pch.h"
 
+using namespace std::literals::chrono_literals;
+
 class client {
 
 private :
@@ -16,8 +18,14 @@ private :
 public :
 
 	struct request {
-
-
+		std::string type;
+		dht::InfoHash sendTo;
+		dht::InfoHash from;
+		std::string contractId;
+		std::string encodedRequest; //with return type, function name, params
+		std::string encodedResponse;
+		dht::NodeExport peer;
+		std::chrono::seconds life;
 	};
 
 	void startListening(dht::InfoHash&);
@@ -26,9 +34,9 @@ public :
 
 	static void listen();
 
-	void inboundRequestCallback(std::vector<request>);
+	void handleInboundResponse(request&);
 
-	VERIFIEDBLOCKCHAIN_API bool handleOutboundRequest(std::vector<request>);
+	VERIFIEDBLOCKCHAIN_API bool handleOutboundRequest(request&);
 
 	VERIFIEDBLOCKCHAIN_API bool registerContract(std::string&);
 

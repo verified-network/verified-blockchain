@@ -17,10 +17,10 @@ private :
 			double value;
 			const char* currency;
 			enum transaction_type { debit, credit, block };
-			const std::string contract_id;
+			std::string contract_id;
 			std::string request;
 			std::string response;
-			std::string transaction_status;
+			bool transaction_status;
 		};
 
 		static VTrie astore;
@@ -35,7 +35,7 @@ private :
 public :
 		balances canDebit(std::string&);
 		bool recordRequest(std::string&&, client::request&);
-		bool recordResponse(std::string&, client::request&, client::request&);
+		bool recordResponse(std::string&, client::request&);
 };
 
 
