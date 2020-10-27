@@ -24,17 +24,19 @@ public :
 		std::string contractId;
 		std::string encodedRequest; //with return type, function name, params
 		std::string encodedResponse;
-		dht::NodeExport peer;
-		std::chrono::seconds life;
+		dht::NodeExport requestorPeer;
+		dht::NodeExport responderPeer;
 	};
 
 	void startListening(dht::InfoHash&);
 
 	void stopListening(dht::InfoHash&);
 
-	static void listen();
+	static void listenToRequests();
 
-	void handleInboundResponse(request&);
+	static void listenToCertificationRequests();
+
+	static void listenToVerificationRequests();
 
 	VERIFIEDBLOCKCHAIN_API bool handleOutboundRequest(request&);
 

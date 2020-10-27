@@ -7,7 +7,7 @@
 
 chain::chain(){
 
-	blockchain.emplace_back(block(0, "genesis block"));
+	blockchain.emplace_back(block(0, "verified root"));
 
 }
 

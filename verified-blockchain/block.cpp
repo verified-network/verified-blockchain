@@ -25,7 +25,7 @@ string block::calculateHash(){
 
 	stringstream ss;
 	ss << index << current_time << data << prevHash;
-	//hash = sha256(ss.str());
+	hash = sha256(ss.str());
 	return hash;
 
 }
