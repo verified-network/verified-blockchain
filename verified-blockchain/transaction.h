@@ -11,23 +11,16 @@ class transaction {
 
 private :
 
-	struct Tx {
-		string hash;
-		enum transaction_type { debit, credit, block };
-		string block;
-		dht::InfoHash certifying_peer;
-		dht::InfoHash counterparty;
-		dht::InfoHash party;
-		time_t timestamp;
-	};
-	
 	static VTrie certificationRequests;
+
+	static VTrie verifiedTransactions;
 
 public :
 
 	struct certifiedTx {
+		std::string root;
 		std::string type;
-		string hash;
+		std::string hash;
 		dht::InfoHash counterparty;
 		dht::InfoHash party;
 		std::string request;
@@ -37,23 +30,18 @@ public :
 	};
 
 	struct verifiedTx {
+		std::string root;
+		std::string txhash;
 		std::string type;
+		dht::InfoHash certifying_peer;
 		dht::InfoHash party;
 		dht::InfoHash counterparty;
-		string request;
-		string response;
-		dht::InfoHash previous_peer;
-		dht::InfoHash next_peer;
-		const char* transaction_status;
-		string transaction;
-		string block;
-		time_t timestamp;
+		std::chrono::system_clock::time_point timestamp;
 	};
 
 	void out(client::request&);
 	void in(client::request&);
 	void certify(certifiedTx&);
-	void certified(certifiedTx&);
 	void verify(verifiedTx&);
 	void verified(verifiedTx&);
 

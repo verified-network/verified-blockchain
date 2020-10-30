@@ -8,7 +8,7 @@
 #include "node.h"
 #include "sha256.h"
 #include <msgpack.h>
-#include <VTrie.hpp>
+#include <vtrie.hpp>
 
 using namespace std;
 
@@ -40,6 +40,7 @@ void transaction::out(client::request& req) {
 			//add Verified Network root node
 		};
 
+	req.root = transaction::verifiedTransactions.GetRoot();
 	req.requestorPeer = peer;
 	req.type = "request";
 
@@ -81,6 +82,7 @@ void transaction::in(client::request& req) {
 
 		}
 		
+		req.root = transaction::verifiedTransactions.GetRoot();
 		req.responderPeer = peer;
 		req.type = "response";
 
@@ -114,6 +116,7 @@ void transaction::in(client::request& req) {
 	c.hash = sha256(req.encodedRequest+req.encodedResponse);
 	c.request = sha256(req.encodedRequest);
 	c.response = sha256(req.encodedResponse);
+	c.root = req.root;
 
 	//encode request
 	std::stringstream s;
@@ -176,23 +179,34 @@ void transaction::certify(transaction::certifiedTx& req) {
 			req.certification_status = true;
 			req.timestamp = std::chrono::system_clock::now();
 
+			requests.certification_status = true;
+			requests.timestamp = req.timestamp;
+			
 			//update transaction store
+			std::stringstream scp;
+			msgpack::pack(scp, requests);
+			const char* certificationRequest = scp.str().c_str();
+			certificationRequests.Update(requests.hash, certificationRequest);
+
+			//insert new request into transaction store
 			std::stringstream s;
 			msgpack::pack(s, req);
 			const char* certificationRequest = s.str().c_str();
-			certificationRequests.Update(req.hash, certificationRequest);
+			certificationRequests.Insert(req.hash, certificationRequest);
 
 			//send out verification requests
+			const char* rootp = req.root.c_str();
 			node::get_node().put(
 				//let party know
 				req.party,
-				dht::Value((const uint8_t*)certificationRequest, std::strlen(certificationRequest))
+				dht::Value((const uint8_t*)rootp, std::strlen(rootp))
 			);
 
+			const char* rootcp = requests.root.c_str();
 			node::get_node().put(
 				//let counterparty also know
-				req.counterparty,
-				dht::Value((const uint8_t*)certificationRequest, std::strlen(certificationRequest))
+				requests.counterparty,
+				dht::Value((const uint8_t*)rootcp, std::strlen(rootcp))
 			);
 
 
@@ -215,9 +229,13 @@ void transaction::certify(transaction::certifiedTx& req) {
 				dht::Value((const uint8_t*)certificationRequest, std::strlen(certificationRequest))
 			);
 
+			std::stringstream scp;
+			msgpack::pack(scp, requests);
+			const char* certificationRequest = scp.str().c_str();
+
 			node::get_node().put(
 				//let counterparty also know
-				req.counterparty,
+				requests.counterparty,
 				dht::Value((const uint8_t*)certificationRequest, std::strlen(certificationRequest))
 			);
 		}

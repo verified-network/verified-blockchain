@@ -18,6 +18,7 @@ private :
 public :
 
 	struct request {
+		std::string root;
 		std::string type;
 		dht::InfoHash sendTo;
 		dht::InfoHash from;
