@@ -4,7 +4,6 @@
 
 #include "pch.h"
 #include "node.h"
-#include "client.h"
 #include "asset.h"
 #include "transaction.h"
 

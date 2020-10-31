@@ -7,5 +7,5 @@
 
 long resource::calculateCost(std::string contractId) {
 
-
+	return 0;
 }

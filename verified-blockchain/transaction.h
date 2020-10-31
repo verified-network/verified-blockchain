@@ -4,6 +4,7 @@
 
 #include "pch.h"
 #include "client.h"
+#include <vtrie.hpp>
 
 using namespace std;
 
