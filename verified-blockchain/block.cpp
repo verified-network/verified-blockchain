@@ -7,9 +7,12 @@
 #include "sha256.h"
 
 
-block::block(uint32_t indexIn, const string &dataIn){
+block::block(uint32_t indexIn, const string &dataIn, dht::InfoHash prev){
 
 	current_time = time(NULL);
+	index = indexIn;
+	data = dataIn;
+	prevHash = prev.toString();
 
 }
 

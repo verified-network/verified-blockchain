@@ -7,23 +7,32 @@
 
 chain::chain(){
 
-	blockchain.emplace_back(block(0, "verified root"));
+	auto root = blockchain.GetRoot();
+	if (root == NULL) {
+		blockchainNode n;
+		n.index = 0;
+		n.previous = dht::InfoHash("verified network root"); //to do : we need replace with verified network root
+	}
 
 }
 
 
 void chain::addBlock(block b){
 
-	b.prevHash = getLastBlock().getHash();
-	b.calculateHash();
-	blockchain.push_back(b);
+	string blockhash = b.calculateHash();
+
+	//encode block and add to blockchain 
+	std::stringstream s;
+	msgpack::pack(s, b);
+	const char* chain = s.str().c_str();
+	blockchain.Insert(blockhash, chain);
 
 }
 
 
-block chain::getLastBlock()const{
+int chain::getSize() {
 
-	return blockchain.back();
+	return blockchain.size();
 
 }
 

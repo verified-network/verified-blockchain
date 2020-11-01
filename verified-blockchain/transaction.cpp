@@ -7,6 +7,8 @@
 #include "transaction.h"
 #include "node.h"
 #include "sha256.h"
+#include "block.h"
+#include "chain.h"
 #include <msgpack.h>
 #include <vtrie.hpp>
 
@@ -40,9 +42,16 @@ void transaction::out(client::request& req) {
 			//add Verified Network root node
 		};
 
-	req.root = transaction::verifiedTransactions.GetRoot();
+	req.root = transaction::transactionStore.GetRoot();
 	req.requestorPeer = peer;
 	req.type = "request";
+
+	auto result = transaction::transactionStore.GetLast(3);
+	msgpack::unpacked unp;
+	msgpack::unpack(unp, result.str().data(), result.str().size());
+	msgpack::object res = unp.get();
+	certifiedTx tx = res.as<certifiedTx>();
+	req.verifyingPeers = tx.previous_verifyingPeers;
 
 	//encode request
 	std::stringstream ss;
@@ -82,9 +91,16 @@ void transaction::in(client::request& req) {
 
 		}
 		
-		req.root = transaction::verifiedTransactions.GetRoot();
+		req.root = transaction::transactionStore.GetRoot();
 		req.responderPeer = peer;
 		req.type = "response";
+
+		auto result = transaction::transactionStore.GetLast(3);
+		msgpack::unpacked unp;
+		msgpack::unpack(unp, result.str().data(), result.str().size());
+		msgpack::object res = unp.get();
+		certifiedTx tx = res.as<certifiedTx>();
+		req.verifyingPeers = tx.previous_verifyingPeers;
 
 		//encode request
 		std::stringstream ss;
@@ -104,6 +120,7 @@ void transaction::in(client::request& req) {
 	dht::InfoHash certifying_peer;
 	certifiedTx c;
 
+	//to do : sslen needs to be replaced with life in ms
 	if (req.requestorPeer.sslen > req.responderPeer.sslen) {
 		certifying_peer = req.requestorPeer.id;
 	}
@@ -117,6 +134,7 @@ void transaction::in(client::request& req) {
 	c.request = sha256(req.encodedRequest);
 	c.response = sha256(req.encodedResponse);
 	c.root = req.root;
+	c.previous_verifyingPeers = req.verifyingPeers;
 
 	//encode request
 	std::stringstream s;
@@ -146,6 +164,7 @@ void transaction::certify(transaction::certifiedTx& req) {
 
 			//update certification request status
 			req.certification_status = false;
+			req.certifying_peer = client::user;
 
 			//if certification request can't be stored on certifying peer for some reason
 			std::stringstream s;
@@ -177,80 +196,134 @@ void transaction::certify(transaction::certifiedTx& req) {
 
 			//update certification status as successful
 			req.certification_status = true;
-			req.timestamp = std::chrono::system_clock::now();
-
 			requests.certification_status = true;
-			requests.timestamp = req.timestamp;
-			
-			//update transaction store
-			std::stringstream scp;
-			msgpack::pack(scp, requests);
-			const char* certificationRequest = scp.str().c_str();
-			certificationRequests.Update(requests.hash, certificationRequest);
-
-			//insert new request into transaction store
-			std::stringstream s;
-			msgpack::pack(s, req);
-			const char* certificationRequest = s.str().c_str();
-			certificationRequests.Insert(req.hash, certificationRequest);
-
-			//send out verification requests
-			const char* rootp = req.root.c_str();
-			node::get_node().put(
-				//let party know
-				req.party,
-				dht::Value((const uint8_t*)rootp, std::strlen(rootp))
-			);
-
-			const char* rootcp = requests.root.c_str();
-			node::get_node().put(
-				//let counterparty also know
-				requests.counterparty,
-				dht::Value((const uint8_t*)rootcp, std::strlen(rootcp))
-			);
-
-
 		}
 		else {
 
 			//update certification status as unsuccessful
 			req.certification_status = false;
-			req.timestamp = std::chrono::system_clock::now();
-
-			//update transaction store
-			std::stringstream s;
-			msgpack::pack(s, req);
-			const char* certificationRequest = s.str().c_str();
-			certificationRequests.Update(req.hash, certificationRequest);
-
-			node::get_node().put(
-				//let party know
-				req.party,
-				dht::Value((const uint8_t*)certificationRequest, std::strlen(certificationRequest))
-			);
-
-			std::stringstream scp;
-			msgpack::pack(scp, requests);
-			const char* certificationRequest = scp.str().c_str();
-
-			node::get_node().put(
-				//let counterparty also know
-				requests.counterparty,
-				dht::Value((const uint8_t*)certificationRequest, std::strlen(certificationRequest))
-			);
+			requests.certification_status = false;
 		}
+
+		req.timestamp = std::chrono::system_clock::now();
+		requests.timestamp = req.timestamp;
+		req.certifying_peer = client::user;
+		requests.certifying_peer = req.certifying_peer;
+					
+		//update transaction store
+		std::stringstream scp;
+		msgpack::pack(scp, requests);
+		const char* certificationRequest = scp.str().c_str();
+		certificationRequests.Update(requests.hash, certificationRequest);
+
+		node::get_node().put(
+			//let party know
+			req.party,
+			dht::Value((const uint8_t*)certificationRequest, std::strlen(certificationRequest))
+		);
+
+		node::get_node().put(
+			//let counterparty also know
+			requests.counterparty,
+			dht::Value((const uint8_t*)certificationRequest, std::strlen(certificationRequest))
+		);
+
+		if (req.previous_verifyingPeers.size() == 0 && requests.previous_verifyingPeers.size() == 0
+			&& requests.request == req.request && requests.response == req.response) {
+			//if previous verifying peers of requestor and responder are not there, then consider transaction verified
+			verifiedTx vtx;
+			vtx.txhash = req.hash;
+			vtx.verifying_peer = client::user;
+			vtx.party = req.party;
+			vtx.counterparty = req.counterparty;
+			vtx.timestamp = req.timestamp;
+			vtx.verification_status = true;
+			verified(vtx, dht::InfoHash("verified network root")); //to do : we need replace with verified network root
+			
+		}
+		
 	}
 
 }
 
-void transaction::verify(transaction::verifiedTx& req) {
+void transaction::verify(transaction::certifiedTx& req) {
 
+	//find out if the requestor's or responder's transaction store root is provable on the blockchain since transaction roots are keys for blocks chained
+	auto proof_nodes = chain::blockchain.Prove(chain::blockchain, req.root);
+	auto proved = chain::blockchain.VerifyProof(chain::blockchain.GetRoot(), req.root, proof_nodes);
 
+	verifiedTx vtx;
+	vtx.txhash = req.hash;
+	vtx.verifying_peer = client::user;
+	vtx.party = req.party;
+	vtx.counterparty = req.counterparty;
+	vtx.timestamp = req.timestamp;
+
+	if (!proved) {
+		//if transaction root is not provable, update status 
+		vtx.verification_status = false;
+	}
+	else {
+		//if proved, transaction is verified successfully
+		vtx.verification_status = true;
+
+		//however, if this peer is not in the list of previous verifying peers of the transaction, stop listening for verifications
+		bool found = false;
+		for (int i = 0; i < req.previous_verifyingPeers.size(); i++) {
+
+			if (client::user == req.previous_verifyingPeers.at(i)) {
+				found = true;
+			}
+		}
+		if (!found) {
+			//stop client's listener for this party's certifications
+
+		}
+	}
+
+	std::stringstream scp;
+	msgpack::pack(scp, vtx);
+	const char* verificationRequest = scp.str().c_str();
+
+	node::get_node().put(
+		//send verification status to the transaction's current certifying peer
+		req.certifying_peer,
+		dht::Value((const uint8_t*)verificationRequest, std::strlen(verificationRequest))
+	);
 
 }
 
-void transaction::verified(transaction::verifiedTx& req) {
+void transaction::verified(transaction::verifiedTx& tx, const dht::InfoHash& verifier) {
 
+	//encode verified transaction
+	std::stringstream scp;
+	msgpack::pack(scp, tx);
+	const char* verifiedTx = scp.str().c_str();
+	
+	//add verified transaction to blockchain
+	chain c;
+	block b(c.getSize(), scp.str().c_str(), verifier);
+	c.addBlock(b);
+	
+	node::get_node().put(
+		//let party know
+		tx.party,
+		dht::Value((const uint8_t*)verifiedTx, std::strlen(verifiedTx))
+	);
 
+	node::get_node().put(
+		//let counterparty also know
+		tx.counterparty,
+		dht::Value((const uint8_t*)verifiedTx, std::strlen(verifiedTx))
+	);
+
+	//if transaction is verified successfully, listen to transaction's requestor and responder for future verifications
+	if (tx.verification_status) {
+		vector<dht::InfoHash> peers;
+		peers.push_back(tx.party);
+		peers.push_back(tx.counterparty);
+		client c;
+		c.listenForVerifications(peers);
+	}
 
 }

@@ -18,10 +18,14 @@ private :
 
 public :
 
+	static VTrie transactionStore;
+
 	struct certifiedTx {
 		std::string root;
 		std::string type;
 		std::string hash;
+		dht::InfoHash certifying_peer;
+		vector<dht::InfoHash> previous_verifyingPeers;
 		dht::InfoHash counterparty;
 		dht::InfoHash party;
 		std::string request;
@@ -31,19 +35,22 @@ public :
 	};
 
 	struct verifiedTx {
-		std::string root;
 		std::string txhash;
-		std::string type;
-		dht::InfoHash certifying_peer;
+		dht::InfoHash verifying_peer;
 		dht::InfoHash party;
 		dht::InfoHash counterparty;
 		std::chrono::system_clock::time_point timestamp;
+		bool verification_status;
 	};
 
 	void out(client::request&);
+
 	void in(client::request&);
+	
 	void certify(certifiedTx&);
-	void verify(verifiedTx&);
-	void verified(verifiedTx&);
+	
+	void verify(certifiedTx&);
+	
+	void verified(verifiedTx&, const dht::InfoHash&);
 
 };

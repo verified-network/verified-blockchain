@@ -17,9 +17,12 @@ private :
 
 public :
 
+	static dht::InfoHash user;
+
 	struct request {
 		std::string root;
 		std::string type;
+		std::vector<dht::InfoHash> verifyingPeers;
 		dht::InfoHash sendTo;
 		dht::InfoHash from;
 		std::string contractId;
@@ -37,7 +40,11 @@ public :
 
 	static void listenToCertificationRequests();
 
-	static void listenToVerificationRequests();
+	void listenForVerifications(std::vector<dht::InfoHash>&);
+
+	static void listenToCertifications(dht::InfoHash&);
+
+	static void listenToVerifications();
 
 	VERIFIEDBLOCKCHAIN_API bool handleOutboundRequest(request&);
 

@@ -15,12 +15,11 @@ class block{
 		string hash;
 		time_t current_time;
 
-
 	public :
 
 		string prevHash;
 		
-		block(uint32_t indexIn, const string &dataIn);
+		block(uint32_t indexIn, const string &dataIn, dht::InfoHash);
 		
 		string calculateHash();
 

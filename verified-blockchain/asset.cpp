@@ -129,4 +129,5 @@ asset::balances asset::canDebit(std::string& peer) {
 	else
 		//return nothing
 		return balances();
+
 }
