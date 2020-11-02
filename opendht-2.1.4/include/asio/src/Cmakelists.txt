@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.12)
+
+project(asio)
+add_definitions(-DASIO_STANDALONE -D_WIN32_WINNT=0x0501) 
+# -DBOOST_DATE_TIME_NO_LIB -DBOOST_REGEX_NO_LIB)
+# include_directories(${VCPKG_DIR}//asio_x86-windows//include)
+include_directories(./../include)
+add_executable(asio s5.cpp)
