@@ -79,6 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>VERIFIEDBLOCKCHAIN</TargetName>
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>VERIFIEDBLOCKCHAIN</TargetName>
@@ -98,15 +99,16 @@
       <PreprocessorDefinitions>WIN32;OPENDHT_JSONCPP;OPENDHT_PROXY_CLIENT;OPENDHT_PROXY_SERVER;OPENDHT_PUSH_NOTIFICATIONS;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_NATIVE;WIN32_LEAN_AND_MEAN;ASIO_STANDALONE;_DEBUG;VERIFIEDBLOCKCHAIN_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\opendht\include;$(ProjectDir)dependencies\opendht\include\opendht;$(ProjectDir)dependencies\sha;$(ProjectDir)dependencies\msgpack-c\include;$(ProjectDir)dependencies\gnutls\include;$(ProjectDir)dependencies\jsoncpp\include;$(ProjectDir)dependencies\argon2\include;$(ProjectDir)\dependencies\storage\include;$(ProjectDir)\dependencies\storage\include\storage</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\opendht\include;$(ProjectDir)include\opendht\include\opendht;$(ProjectDir)include\sha;$(ProjectDir)include\msgpack-c\include;$(ProjectDir)include\gnutls\include;$(ProjectDir)include\jsoncpp\include;$(ProjectDir)include\argon2\include;$(ProjectDir)include\storage\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\opendht\lib\x86;$(SolutionDir)dependencies\nettle;$(SolutionDir)dependencies\storage\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)include\opendht\lib\x86;$(SolutionDir)include\nettle;$(SolutionDir)include\storage\lib\x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>libopendht.lib;keccakd.lib;rlpd.lib;storaged.lib;utilsd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
@@ -122,13 +124,15 @@
       <PreprocessorDefinitions>WIN32;OPENDHT_JSONCPP;OPENDHT_PROXY_CLIENT;OPENDHT_PROXY_SERVER;OPENDHT_PUSH_NOTIFICATIONS;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_NATIVE;WIN32_LEAN_AND_MEAN;ASIO_STANDALONE;_DEBUG;VERIFIEDBLOCKCHAIN_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)dependencies\opendht-x64\include;$(ProjectDir)dependencies\opendht-x64\include\opendht;$(ProjectDir)dependencies\sha;$(ProjectDir)dependencies\msgpack-c\include;$(ProjectDir)dependencies\gnutls\include;$(ProjectDir)dependencies\jsoncpp\include;$(ProjectDir)\dependencies\storage\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\opendht\include;$(ProjectDir)include\opendht\include\opendht;$(ProjectDir)include\sha;$(ProjectDir)include\msgpack-c\include;$(ProjectDir)include\gnutls\include;$(ProjectDir)include\jsoncpp\include;$(ProjectDir)include\argon2\include;$(ProjectDir)include\storage\include</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>$(ProjectDir)dependencies\opendht\x64;$(SolutionDir)\dependencies\storage\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)include\opendht\lib\x64;$(SolutionDir)include\nettle;$(SolutionDir)include\storage\lib\x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>libopendht.lib;keccakd.lib;rlpd.lib;storaged.lib;utilsd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -186,31 +190,33 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="asset.h" />
-    <ClInclude Include="block.h" />
-    <ClInclude Include="chain.h" />
-    <ClInclude Include="client.h" />
-    <ClInclude Include="node.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="peer.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="transaction.h" />
+    <ClInclude Include="provider.h" />
+    <ClInclude Include="src\asset.h" />
+    <ClInclude Include="src\block.h" />
+    <ClInclude Include="src\chain.h" />
+    <ClInclude Include="src\client.h" />
+    <ClInclude Include="src\node.h" />
+    <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\peer.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\transaction.h" />
+    <ClInclude Include="token.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="asset.cpp" />
-    <ClCompile Include="block.cpp" />
-    <ClCompile Include="chain.cpp" />
-    <ClCompile Include="client.cpp" />
-    <ClCompile Include="node.cpp" />
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="provider.cpp" />
+    <ClCompile Include="src\asset.cpp" />
+    <ClCompile Include="src\block.cpp" />
+    <ClCompile Include="src\chain.cpp" />
+    <ClCompile Include="src\client.cpp" />
+    <ClCompile Include="src\node.cpp" />
+    <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="peer.cpp" />
-    <ClCompile Include="resource.cpp" />
-    <ClCompile Include="transaction.cpp" />
+    <ClCompile Include="src\peer.cpp" />
+    <ClCompile Include="src\resource.cpp" />
+    <ClCompile Include="src\transaction.cpp" />
+    <ClCompile Include="token.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
