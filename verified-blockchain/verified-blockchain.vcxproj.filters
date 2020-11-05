@@ -45,10 +45,10 @@
     <ClInclude Include="src\transaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="token.h">
+    <ClInclude Include="src\token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="provider.h">
+    <ClInclude Include="src\provider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,10 +80,10 @@
     <ClCompile Include="src\transaction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="token.cpp">
+    <ClCompile Include="src\token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="provider.cpp">
+    <ClCompile Include="src\provider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

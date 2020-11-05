@@ -25,17 +25,8 @@ private :
 
 		static VTrie astore;
 
-		struct balances {
-			float balance;
-			const char* currency;
-		};
-
-		static VTrie cstore;
-
 public :
 		
-		balances canDebit(std::string&);
-
 		bool recordRequest(std::string&&, client::request&);
 		
 		bool recordResponse(std::string&, client::request&);

@@ -8,6 +8,7 @@
 #include <msgpack.hpp>
 #include "sha256.h"
 #include "resource.h"
+#include "token.h"
 
 using namespace std;
 
@@ -20,8 +21,8 @@ bool asset::recordRequest(std::string&& peer, client::request& req) {
 	if (result == NULL) {
 
 		//no request is logged yet, check if enough via balance exists to create request
-		balances b = canDebit(peer);
-		if (b.balance > 0) {
+		token b = token("via");
+		if (b.balanceOf(peer) > 0) {
 
 			//then create
 			assets a;
@@ -29,7 +30,7 @@ bool asset::recordRequest(std::string&& peer, client::request& req) {
 			std::stringstream s;
 			msgpack::pack(s, req.from);
 			a.requestor = s.str();
-			a.currency = b.currency;
+			a.currency = "via";
 			a.contract_id = req.contractId;
 
 			//and store request
@@ -72,9 +73,9 @@ bool asset::recordResponse(std::string& peer, client::request& req) {
 		//deduct cost of resource consumed
 		if (peer == s.responder) {
 			resource r;
-			balances b = canDebit(peer);
+			token b = token("via");
 			long cost = r.calculateCost(s.contract_id);
-			if (b.balance > cost) {
+			if (b.balanceOf(peer) > cost) {
 				//cost is shared equally by responder and requestor
 				s.value = cost / 2; 
 				s.transaction_status = true;
@@ -86,8 +87,8 @@ bool asset::recordResponse(std::string& peer, client::request& req) {
 			}
 		}
 		else if (peer == s.requestor) {
-			balances b = canDebit(peer);
-			if (b.balance > s.value) {
+			token b = token("via");
+			if (b.balanceOf(peer) > s.value) {
 				s.transaction_status = true;
 			}
 			else {
@@ -112,22 +113,6 @@ bool asset::recordResponse(std::string& peer, client::request& req) {
 
 }
 
-asset::balances asset::canDebit(std::string& peer) {
 
-	auto result = cstore.Select(peer);
-	if (result != NULL) {
-		//if any asset is logged, extract asset balances from result
-		msgpack::unpacked unp;
-		msgpack::unpack(unp, result.str().data(), result.str().size());
-		msgpack::object res = unp.get();
-		balances b = res.as<balances>();
+	
 
-		//check for via balances
-		if(b.currency=="via")
-			return b;
-	}
-	else
-		//return nothing
-		return balances();
-
-}

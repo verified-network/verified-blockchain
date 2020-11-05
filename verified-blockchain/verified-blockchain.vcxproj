@@ -190,7 +190,6 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="provider.h" />
     <ClInclude Include="src\asset.h" />
     <ClInclude Include="src\block.h" />
     <ClInclude Include="src\chain.h" />
@@ -198,12 +197,12 @@
     <ClInclude Include="src\node.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\peer.h" />
+    <ClInclude Include="src\provider.h" />
     <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\token.h" />
     <ClInclude Include="src\transaction.h" />
-    <ClInclude Include="token.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="provider.cpp" />
     <ClCompile Include="src\asset.cpp" />
     <ClCompile Include="src\block.cpp" />
     <ClCompile Include="src\chain.cpp" />
@@ -214,9 +213,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\peer.cpp" />
+    <ClCompile Include="src\provider.cpp" />
     <ClCompile Include="src\resource.cpp" />
+    <ClCompile Include="src\token.cpp" />
     <ClCompile Include="src\transaction.cpp" />
-    <ClCompile Include="token.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
