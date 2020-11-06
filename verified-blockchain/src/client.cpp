@@ -2,6 +2,7 @@
  * Copyright Kallol Borah 2019
  * */
 
+
 #include "pch.h"
 #include "node.h"
 #include "asset.h"
@@ -50,16 +51,11 @@ void client::listenToRequests() {
 	rtoken = node::get_node().listen<request>(user, [](request&& req, bool expired) {
 		if (req.type == "request") {
 			//req is the incoming request, forward it to verified run time
-			//wait for result encoded in request data structure and updated peer to req.SendTo
-			//then forward that for transaction response
-			transaction t;
-			t.in(req);
+			call(req);
 		}
 		else if (req.type == "response") {
 			//req is returned response, forward it to verified run time
-			//then forward that for transaction certification
-			transaction t;
-			t.in(req);
+			callback(req);
 		}
 		
 		return true; // keep listening
@@ -80,7 +76,7 @@ void client::listenToCertificationRequests() {
 
 			if (!req.certification_status) {
 				//handle transaction revert by calling back handler
-				//to do 
+				revert();
 			}
 		}
 		
@@ -122,7 +118,7 @@ void client::listenToVerifications() {
 			}
 			else {
 				//handle transaction revert by calling back handler
-				//to do 
+				revert();
 			}
 		}
 		else {
@@ -136,10 +132,9 @@ void client::listenToVerifications() {
 
 }
 
+#ifndef __cplusplus
 
-extern "C" {
-	
-	VERIFIEDBLOCKCHAIN_API bool handleOutboundRequest(client::request& req) {
+	bool handleOutboundRequest(message* req) {
 
 		asset a;
 		if (a.recordRequest(client::user.to_c_str(), req)) {
@@ -151,11 +146,22 @@ extern "C" {
 			return false;
 	}
 
-	VERIFIEDBLOCKCHAIN_API bool registerContract(std::string& contractId) {
+	bool handleInboundResponse(message* resp) {
+
+		asset a;
+		if (a.recordRequest(client::user.to_c_str(), resp)) {
+			transaction t;
+			t.in(resp);
+			return true;
+		}
+		else
+			return false;
+	}
+
+	bool registerContract(char* contractId) {
 		//contract id is container bundle/image hash
 		return true;
 	}
 
-}
-
+#endif
 
