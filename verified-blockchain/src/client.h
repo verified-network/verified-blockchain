@@ -2,8 +2,6 @@
  * Copyright Kallol Borah 2019
  * */
 
-#ifdef __cplusplus
-
 #define VERIFIEDBLOCKCHAIN_API __declspec(dllexport)
 #include "pch.h"
 
@@ -48,33 +46,10 @@ public:
 
 	static void listenToVerifications();
 
+	VERIFIEDBLOCKCHAIN_API bool handleOutboundRequest(client::request&);
+
+	VERIFIEDBLOCKCHAIN_API bool handleInboundResponse(client::request&);
+
 };
-#else
-
-	typedef
-		struct message
-			request;
-
-#endif
-
-#ifdef __cplusplus
-	extern "C" {
-#endif
-#if defined(__STDC__) || defined(__cplusplus)
 		
-		void call(client::request&);
-		void callback(client::request&);
-		void revert();
 		
-#else
-		extern bool handleOutboundRequest(message*);
-		extern bool handleInboundResponse(message*);
-		extern bool registerContract(char*);
-		
-#endif
-#ifdef __cplusplus
-	}
-#endif
-
-	
-

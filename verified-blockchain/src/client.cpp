@@ -51,11 +51,11 @@ void client::listenToRequests() {
 	rtoken = node::get_node().listen<request>(user, [](request&& req, bool expired) {
 		if (req.type == "request") {
 			//req is the incoming request, forward it to verified run time
-			call(req);
+			//call(req);
 		}
 		else if (req.type == "response") {
 			//req is returned response, forward it to verified run time
-			callback(req);
+			//callback(req);
 		}
 		
 		return true; // keep listening
@@ -76,7 +76,7 @@ void client::listenToCertificationRequests() {
 
 			if (!req.certification_status) {
 				//handle transaction revert by calling back handler
-				revert();
+				//revert();
 			}
 		}
 		
@@ -118,7 +118,7 @@ void client::listenToVerifications() {
 			}
 			else {
 				//handle transaction revert by calling back handler
-				revert();
+				//revert();
 			}
 		}
 		else {
@@ -132,36 +132,30 @@ void client::listenToVerifications() {
 
 }
 
-#ifndef __cplusplus
 
-	bool handleOutboundRequest(message* req) {
+VERIFIEDBLOCKCHAIN_API bool client::handleOutboundRequest(client::request& req) {
 
-		asset a;
-		if (a.recordRequest(client::user.to_c_str(), req)) {
-			transaction t;
-			t.out(req);			
-			return true;
-		}
-		else
-			return false;
-	}
-
-	bool handleInboundResponse(message* resp) {
-
-		asset a;
-		if (a.recordRequest(client::user.to_c_str(), resp)) {
-			transaction t;
-			t.in(resp);
-			return true;
-		}
-		else
-			return false;
-	}
-
-	bool registerContract(char* contractId) {
-		//contract id is container bundle/image hash
+	asset a;
+	if (a.recordRequest(client::user.to_c_str(), req)) {
+		transaction t;
+		t.out(req);			
 		return true;
 	}
+	else
+		return false;
+}
 
-#endif
+VERIFIEDBLOCKCHAIN_API bool client::handleInboundResponse(client::request& resp) {
+
+	asset a;
+	if (a.recordRequest(client::user.to_c_str(), resp)) {
+		transaction t;
+		t.in(resp);
+		return true;
+	}
+	else
+		return false;
+}
+
+	
 
