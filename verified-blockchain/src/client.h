@@ -3,6 +3,7 @@
  * */
 
 #define VERIFIEDBLOCKCHAIN_API __declspec(dllexport)
+
 #include "pch.h"
 
 using namespace std::literals::chrono_literals;

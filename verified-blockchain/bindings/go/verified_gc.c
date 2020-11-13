@@ -1,0 +1,98 @@
+
+#include "runtime.h"
+#include "cgocall.h"
+
+#pragma dataflag 16
+static void *cgocall = runtime·cgocall;
+#pragma dataflag 16
+void *·_cgo_runtime_cgocall = &cgocall;
+
+
+#pragma dynimport _wrap_Swig_free_verified_e8f0de5c4fff2cfa _wrap_Swig_free_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_Swig_free_verified_e8f0de5c4fff2cfa
+extern void _wrap_Swig_free_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_Swig_free_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_Swig_free_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_Swig_malloc_verified_e8f0de5c4fff2cfa _wrap_Swig_malloc_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_Swig_malloc_verified_e8f0de5c4fff2cfa
+extern void _wrap_Swig_malloc_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_Swig_malloc_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_Swig_malloc_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_peer_signup_verified_e8f0de5c4fff2cfa _wrap_peer_signup_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_peer_signup_verified_e8f0de5c4fff2cfa
+extern void _wrap_peer_signup_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_peer_signup_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_peer_signup_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_peer_signin_verified_e8f0de5c4fff2cfa _wrap_peer_signin_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_peer_signin_verified_e8f0de5c4fff2cfa
+extern void _wrap_peer_signin_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_peer_signin_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_peer_signin_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_peer_signout_verified_e8f0de5c4fff2cfa _wrap_peer_signout_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_peer_signout_verified_e8f0de5c4fff2cfa
+extern void _wrap_peer_signout_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_peer_signout_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_peer_signout_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_new_peer_verified_e8f0de5c4fff2cfa _wrap_new_peer_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_new_peer_verified_e8f0de5c4fff2cfa
+extern void _wrap_new_peer_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_new_peer_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_new_peer_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_delete_peer_verified_e8f0de5c4fff2cfa _wrap_delete_peer_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_delete_peer_verified_e8f0de5c4fff2cfa
+extern void _wrap_delete_peer_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_delete_peer_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_delete_peer_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_client_handleOutboundRequest_verified_e8f0de5c4fff2cfa _wrap_client_handleOutboundRequest_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_client_handleOutboundRequest_verified_e8f0de5c4fff2cfa
+extern void _wrap_client_handleOutboundRequest_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_client_handleOutboundRequest_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_client_handleOutboundRequest_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_client_handleInboundResponse_verified_e8f0de5c4fff2cfa _wrap_client_handleInboundResponse_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_client_handleInboundResponse_verified_e8f0de5c4fff2cfa
+extern void _wrap_client_handleInboundResponse_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_client_handleInboundResponse_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_client_handleInboundResponse_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_new_client_verified_e8f0de5c4fff2cfa _wrap_new_client_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_new_client_verified_e8f0de5c4fff2cfa
+extern void _wrap_new_client_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_new_client_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_new_client_verified_e8f0de5c4fff2cfa;
+
+
+
+
+#pragma dynimport _wrap_delete_client_verified_e8f0de5c4fff2cfa _wrap_delete_client_verified_e8f0de5c4fff2cfa ""
+#pragma cgo_import_static _wrap_delete_client_verified_e8f0de5c4fff2cfa
+extern void _wrap_delete_client_verified_e8f0de5c4fff2cfa(void*);
+uintptr ·_wrap_delete_client_verified_e8f0de5c4fff2cfa = (uintptr)_wrap_delete_client_verified_e8f0de5c4fff2cfa;
+
+
+
+

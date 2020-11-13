@@ -7,6 +7,7 @@
 #include "peer.h"
 #include "client.h"
 
+
 extern "C" {
 	
 	bool peer::logged = false;
@@ -34,7 +35,7 @@ extern "C" {
 	}
 
 
-	VERIFIEDBLOCKCHAIN_API dht::InfoHash peer::signin(std::string& username, std::string& pwd) {
+	VERIFIEDBLOCKCHAIN_API std::string peer::signin(std::string& username, std::string& pwd) {
 
 		if (!node::get_node().isRunning()) {
 			node n;
@@ -69,7 +70,7 @@ extern "C" {
 
 			});
 
-		return userid;
+		return userid.to_c_str();
 
 	}
 

@@ -8,6 +8,7 @@
 #include "asset.h"
 #include "transaction.h"
 
+
 std::future<size_t> rtoken;
 std::future<size_t> ctoken;
 std::future<size_t> vtoken;

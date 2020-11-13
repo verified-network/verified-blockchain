@@ -2,9 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\verified-blockchain",
-    "\\verified-blockchain\\src",
-    "\\verified-blockchain\\Win32"
+    "\\verified-blockchain\\bindings",
+    "\\verified-blockchain\\bindings\\go",
+    "\\verified-blockchain\\bindings\\javascript\\jsc",
+    "\\verified-blockchain\\bindings\\javascript\\v8",
+    "\\verified-blockchain\\src"
   ],
-  "SelectedNode": "\\verified-blockchain\\src\\asset.cpp",
+  "SelectedNode": "\\verified-blockchain\\bindings\\tcl",
   "PreviewInSolutionExplorer": false
 }

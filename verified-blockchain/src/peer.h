@@ -4,6 +4,7 @@
 */
 
 #define VERIFIEDBLOCKCHAIN_API __declspec(dllexport)
+
 #include "pch.h"
 
 class peer {
@@ -20,7 +21,7 @@ class peer {
 
 		VERIFIEDBLOCKCHAIN_API int signup(std::string&, std::string&);
 
-		VERIFIEDBLOCKCHAIN_API dht::InfoHash signin(std::string&, std::string&);
+		VERIFIEDBLOCKCHAIN_API std::string signin(std::string&, std::string&);
 
 		VERIFIEDBLOCKCHAIN_API int signout(void);
 
